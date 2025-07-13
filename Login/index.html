@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login – Guessible 2</title>
+  <link rel="stylesheet" href="/Guessible-2/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">Guessible 2</div>
+    <nav>
+      <a href="/Guessible-2/home/about.html">About</a>
+      <a href="/Guessible-2/Sign-up/">Sign up</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Log in</h1>
+    <form id="loginForm">
+      <input type="email" placeholder="Email" id="email" required />
+      <input type="password" placeholder="Password" id="password" required />
+      <button type="submit">Log In</button>
+    </form>
+    <p id="msg"></p>
+  </main>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const res = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.value,
+          password: password.value
+        })
+      });
+      const data = await res.json();
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "/Guessible-2/cloud/";
+      } else {
+        msg.innerText = data.message || "Login failed.";
+      }
+    });
+  </script>
+</body>
+</html>
