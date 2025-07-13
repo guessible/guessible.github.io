@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up – Guessible 2</title>
+  <link rel="stylesheet" href="/Guessible-2/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">Guessible 2</div>
+    <nav>
+      <a href="/Guessible-2/home/about.html">About</a>
+      <a href="/Guessible-2/Login/">Log in</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Create Your Account</h1>
+    <form id="signupForm">
+      <input type="text" placeholder="Username" id="username" required />
+      <input type="email" placeholder="Email" id="email" required />
+      <input type="password" placeholder="Password" id="password" required />
+      <button type="submit">Sign Up</button>
+    </form>
+    <p id="msg"></p>
+  </main>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const res = await fetch("http://localhost:3000/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username.value,
+          email: email.value,
+          password: password.value
+        })
+      });
+      const data = await res.json();
+      msg.innerText = data.message || "Account created!";
+    });
+  </script>
+</body>
+</html>
